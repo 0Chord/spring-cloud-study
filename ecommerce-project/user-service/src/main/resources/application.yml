@@ -4,6 +4,17 @@ server:
 spring:
   application:
     name: user-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_cloud_practice
+    username: root
+    password: 1q2w3e4r!
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: mysql
+    show-sql: true
+
 
 eureka:
   instance:
@@ -16,3 +27,4 @@ eureka:
 
 greeting:
   message: Welcome to the simple E-commerce
+
