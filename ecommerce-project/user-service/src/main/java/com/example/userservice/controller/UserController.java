@@ -23,7 +23,7 @@ import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
 
 	private final Environment env;
