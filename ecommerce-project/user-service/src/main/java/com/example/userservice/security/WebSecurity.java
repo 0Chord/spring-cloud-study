@@ -31,15 +31,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/error/**").permitAll()
 			.antMatchers("/**")
-			.permitAll()
+			.access("hasIpAddress('" + "172.27.0.20" + "')")
 			.and()
 			.addFilter(getAuthenticationFilter());
 		http.headers().frameOptions().disable();
 	}
 
 	private AuthenticationFilter getAuthenticationFilter() throws Exception {
-		AuthenticationFilter authenticationFilter = new AuthenticationFilter();
-		authenticationFilter.setAuthenticationManager(authenticationManager());
+		AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
+		// authenticationFilter.setAuthenticationManager(authenticationManager());
 
 		return authenticationFilter;
 	}
