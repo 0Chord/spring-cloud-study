@@ -44,7 +44,7 @@ public class UserController {
 			+ ", port(local.server.port)=" + env.getProperty("local.server.port")
 			+ ", port(server.port)=" + env.getProperty("server.port")
 			+ ", token secret=" + env.getProperty("token.secret")
-			+ ", token expiration time=" + env.getProperty("token.expiration_time"));
+			+ ", token expiration=" + env.getProperty("token.expiration_time"));
 	}
 
 	@GetMapping("/welcome")
