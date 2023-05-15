@@ -5,15 +5,15 @@ spring:
   application:
     name: user-service
   rabbitmq:
-    host: localhost
+    host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_cloud_practice
-    username: root
-    password: 1q2w3e4r!
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/spring_cloud_practice
+#    username: root
+#    password: 1q2w3e4r!
   jpa:
     hibernate:
       ddl-auto: create
