@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.error.FeignErrorDecoder;
 import com.example.userservice.repository.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
@@ -69,12 +70,13 @@ public class UserServiceImpl implements UserService {
 		/* FeignClient 사용 */
 		/* Feign Exception Handling*/
 
-		List<ResponseOrder> orderList = null;
-		try {
-			orderList = orderServiceClient.getOrders(userId);
-		} catch (FeignException ex) {
-			log.error(ex.getMessage());
-		}
+		// List<ResponseOrder> orderList = null;
+		// try {
+		// 	orderList = orderServiceClient.getOrders(userId);
+		// } catch (FeignException ex) {
+		// 	log.error(ex.getMessage());
+		// }
+		List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
 		userDto.setOrders(orderList);
 		return userDto;
 	}
