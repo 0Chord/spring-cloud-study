@@ -17,21 +17,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.repository.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final RestTemplate restTemplate;
 	private final Environment env;
+	private final OrderServiceClient orderServiceClient;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -55,12 +60,21 @@ public class UserServiceImpl implements UserService {
 		}
 		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 		// List<ResponseOrder> orders = new ArrayList<>();
-		String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-		ResponseEntity<List<ResponseOrder>> orderListResponse =
-			restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<ResponseOrder>>() {
-				});
-		List<ResponseOrder> orderList = orderListResponse.getBody();
+		// String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+		// ResponseEntity<List<ResponseOrder>> orderListResponse =
+		// 	restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+		// 		new ParameterizedTypeReference<List<ResponseOrder>>() {
+		// 		});
+		// List<ResponseOrder> orderList = orderListResponse.getBody();
+		/* FeignClient 사용 */
+		/* Feign Exception Handling*/
+
+		List<ResponseOrder> orderList = null;
+		try {
+			orderList = orderServiceClient.getOrders(userId);
+		} catch (FeignException ex) {
+			log.error(ex.getMessage());
+		}
 		userDto.setOrders(orderList);
 		return userDto;
 	}
