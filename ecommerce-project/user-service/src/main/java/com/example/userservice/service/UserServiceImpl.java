@@ -35,9 +35,10 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
-	private final RestTemplate restTemplate;
 	private final Environment env;
+	private final RestTemplate restTemplate;
 	private final OrderServiceClient orderServiceClient;
+	private final FeignErrorDecoder errorDecoder;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -60,24 +61,23 @@ public class UserServiceImpl implements UserService {
 			throw new UsernameNotFoundException("User not found");
 		}
 		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-		// List<ResponseOrder> orders = new ArrayList<>();
+		/*rest template use */
 		// String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-		// ResponseEntity<List<ResponseOrder>> orderListResponse =
-		// 	restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-		// 		new ParameterizedTypeReference<List<ResponseOrder>>() {
-		// 		});
-		// List<ResponseOrder> orderList = orderListResponse.getBody();
-		/* FeignClient 사용 */
-		/* Feign Exception Handling*/
+		// ResponseEntity<List<ResponseOrder>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+		// 	new ParameterizedTypeReference<List<ResponseOrder>>() {
+		// 	});
+		// List<ResponseOrder> ordersList = orderListResponse.getBody();
 
-		// List<ResponseOrder> orderList = null;
+		/*feign client use */
+		/*feign exception handling*/
 		// try {
-		// 	orderList = orderServiceClient.getOrders(userId);
+		// 	ordersList = orderServiceClient.getOrders(userId);
 		// } catch (FeignException ex) {
 		// 	log.error(ex.getMessage());
 		// }
-		List<ResponseOrder> orderList = orderServiceClient.getOrders(userId);
-		userDto.setOrders(orderList);
+		List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+
+		userDto.setOrders(ordersList);
 		return userDto;
 	}
 
@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserEntity userEntity = userRepository.findByEmail(username);
+		System.out.println("UserServiceImpl.loadUserByUsername");
 		if (userEntity == null) {
 			throw new UsernameNotFoundException(username);
 		}

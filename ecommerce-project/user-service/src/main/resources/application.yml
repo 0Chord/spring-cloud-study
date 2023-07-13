@@ -14,6 +14,7 @@ spring:
 #    url: jdbc:mysql://localhost:3306/spring_cloud_practice
 #    username: root
 #    password: 1q2w3e4r!
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -36,11 +37,13 @@ greeting:
 #token:
 #  expiration_time: 86400000
 #  secret: user_token
+
 management:
   endpoints:
     web:
       exposure:
         include: refresh, health, beans, busrefresh
+
 logging:
   level:
     com.example.userservice.client: DEBUG

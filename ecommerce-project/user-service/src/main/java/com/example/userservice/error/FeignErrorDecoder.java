@@ -9,6 +9,7 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.RequiredArgsConstructor;
 
+
 @Component
 @RequiredArgsConstructor
 public class FeignErrorDecoder implements ErrorDecoder {
@@ -22,12 +23,13 @@ public class FeignErrorDecoder implements ErrorDecoder {
 			case 404:
 				if (methodKey.contains("getOrders")) {
 					return new ResponseStatusException(HttpStatus.valueOf(response.status()),
-						env.getProperty("order_service.exception.order_is_empty"));
+						env.getProperty("order_service.exception.orders_is_empty"));
 				}
 				break;
 			default:
 				return new Exception(response.reason());
 		}
+
 		return null;
 	}
 }

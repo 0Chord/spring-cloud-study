@@ -29,9 +29,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/actuator/**").permitAll();
 		http.authorizeRequests()
-			.antMatchers("/error/**").permitAll()
 			.antMatchers("/**")
-			.access("hasIpAddress('" + "172.30.19.202" + "')")
+			.access("hasIpAddress('" + "172.27.0.96" + "')")
 			.and()
 			.addFilter(getAuthenticationFilter());
 		http.headers().frameOptions().disable();
@@ -40,12 +39,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	private AuthenticationFilter getAuthenticationFilter() throws Exception {
 		AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
 		// authenticationFilter.setAuthenticationManager(authenticationManager());
-
+		System.out.println("WebSecurity.getAuthenticationFilter");
 		return authenticationFilter;
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println("WebSecurity.configure");
 		auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
 	}
 }

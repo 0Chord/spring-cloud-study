@@ -43,6 +43,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
 		AuthenticationException {
 		try {
+
+			System.out.println("AuthenticationFilter.attemptAuthentication");
 			RequestLogin creds = new ObjectMapper().readValue(request.getInputStream(), RequestLogin.class);
 			return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(
@@ -53,10 +55,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			throw new RuntimeException(e);
 		}
 	}
-
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 		Authentication authResult) throws IOException, ServletException {
+		System.out.println("AuthenticationFilter.successfulAuthentication");
 		String userName = ((User)authResult.getPrincipal()).getUsername();
 		UserDto userDetails = userService.getUserDetailsByEmail(userName);
 

@@ -9,8 +9,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-  profiles:
-    active: native
   cloud:
     config:
       server:
@@ -23,4 +21,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, busrefresh
+        include: refresh, health, beans, busrefresh

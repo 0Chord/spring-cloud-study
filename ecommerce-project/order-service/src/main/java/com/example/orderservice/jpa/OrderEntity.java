@@ -22,7 +22,7 @@ public class OrderEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false,length = 120, unique = true)
+	@Column(nullable = false, length = 120, unique = true)
 	private String productId;
 	@Column(nullable = false)
 	private Integer qty;
@@ -37,7 +37,6 @@ public class OrderEntity implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String orderId;
 
-	@Column(nullable = false, updatable = false, insertable = false)
-	@ColumnDefault(value = "CURRENT_TIMESTAMP")
+	@Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;
 }
