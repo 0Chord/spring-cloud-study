@@ -4,19 +4,30 @@ server:
 spring:
   application:
     name: catalog-service
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/spring_cloud_practice
+#    username: root
+#    password: 1q2w3e4r!
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_cloud_practice
-    username: root
-    password: 1q2w3e4r!
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+
   jpa:
     hibernate:
       ddl-auto: create-drop
-    database: mysql
+#    database: mysql
     show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+#    database-platform: org.hibernate.dialect.MySQL5Dialect
   sql:
     init:
       mode: always

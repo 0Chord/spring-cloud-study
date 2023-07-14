@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.jpa.OrderEntity;
+import com.example.orderservice.messagequeue.KafkaProducer;
 import com.example.orderservice.service.OrderService;
 import com.example.orderservice.vo.RequestOrder;
 import com.example.orderservice.vo.ResponseOrder;
@@ -33,6 +34,8 @@ public class OrderController {
 	private final Environment env;
 	private final OrderService orderService;
 
+	private final KafkaProducer kafkaProducer;
+
 	@GetMapping("/health_check")
 	private String status() {
 		return String.format("It's Working in Order Service on PORT %s", env.getProperty("local.server.port"));
@@ -48,6 +51,8 @@ public class OrderController {
 		OrderDto createdOrder = orderService.createOrder(orderDto);
 
 		ResponseOrder responseUser = mapper.map(createdOrder, ResponseOrder.class);
+
+		kafkaProducer.send("example-catalog-topic", orderDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
 	}
 
