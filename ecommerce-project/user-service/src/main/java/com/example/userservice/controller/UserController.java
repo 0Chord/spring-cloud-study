@@ -22,6 +22,8 @@ import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
 
+import io.micrometer.core.annotation.Timed;
+
 @RestController
 @RequestMapping("/")
 public class UserController {
@@ -38,6 +40,7 @@ public class UserController {
 	}
 
 	@GetMapping("/health_check")
+	@Timed(value = "users.status",longTask = true)
 	public String status() {
 
 		return String.format("It's Working In User Service"
@@ -48,6 +51,7 @@ public class UserController {
 	}
 
 	@GetMapping("/welcome")
+	@Timed(value = "users.welcome",longTask = true)
 	public String welcome() {
 		// return env.getProperty("greeting.message");
 		return greeting.getMessage();

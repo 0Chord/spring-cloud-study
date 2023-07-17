@@ -68,7 +68,6 @@ spring:
             - Path= /catalog-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - AuthorizationHeaderFilter
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
@@ -82,4 +81,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, refresh, beans, httptrace, busrefresh
+        include: health, refresh, beans, httptrace, busrefresh, info, metrics, prometheus
