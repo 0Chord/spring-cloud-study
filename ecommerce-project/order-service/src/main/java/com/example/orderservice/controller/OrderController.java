@@ -57,19 +57,19 @@ public class OrderController {
 		/**
 		 * JPA
 		 */
-		// OrderDto createdOrder = orderService.createOrder(orderDto);
-		// ResponseOrder responseUser = mapper.map(createdOrder, ResponseOrder.class);
+		OrderDto createdOrder = orderService.createOrder(orderDto);
+		ResponseOrder responseUser = mapper.map(createdOrder, ResponseOrder.class);
 
 		/**
 		 * Kafka
 		 */
-		orderDto.setOrderId(UUID.randomUUID().toString());
-		orderDto.setTotalPrice(orderDetails.getQty() * orderDetails.getUnitPrice());
+		// orderDto.setOrderId(UUID.randomUUID().toString());
+		// orderDto.setTotalPrice(orderDetails.getQty() * orderDetails.getUnitPrice());
 
 		kafkaProducer.send("example-catalog-topic", orderDto);
-		orderProducer.send("orders", orderDto);
+		// orderProducer.send("orders", orderDto);
 
-		ResponseOrder responseUser = mapper.map(orderDto, ResponseOrder.class);
+		// ResponseOrder responseUser = mapper.map(orderDto, ResponseOrder.class);
 
 		log.info("After added orders data");
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
@@ -86,12 +86,12 @@ public class OrderController {
 			result.add(new ModelMapper().map(v, ResponseOrder.class));
 		});
 
-		try {
-			Thread.sleep(1000);
-			throw new Exception("장애 발샏");
-		} catch (Exception ex) {
-			log.error("error message",ex);
-		}
+		// try {
+		// 	Thread.sleep(1000);
+		// 	throw new Exception("장애 발샏");
+		// } catch (Exception ex) {
+		// 	log.error("error message",ex);
+		// }
 		log.info("After retrieve orders data");
 
 		return ResponseEntity.status(HttpStatus.OK).body(result);
